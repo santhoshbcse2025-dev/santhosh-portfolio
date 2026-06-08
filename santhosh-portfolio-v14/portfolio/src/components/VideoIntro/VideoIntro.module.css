@@ -1,0 +1,170 @@
+.hero {
+  position: relative; width: 100%; height: 100vh;
+  min-height: 600px; overflow: hidden;
+  background: var(--dark);
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── Ambient BG ── */
+.bgLayer { position: absolute; inset: -60px; z-index: 0; overflow: hidden; }
+.bgVideo {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: blur(70px) saturate(0.4) brightness(0.2);
+  transform: scale(1.15); will-change: transform;
+}
+.bgScrim {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(196,90,32,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 60%, rgba(107,143,181,0.06) 0%, transparent 60%);
+}
+
+/* ── Photo layer — shown after video ends ── */
+.photoLayer {
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.photoImg {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: brightness(0.65) saturate(0.85);
+}
+.photoOverlay {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to top, rgba(8,6,4,0.96) 0%, rgba(8,6,4,0.5) 35%, transparent 65%),
+    linear-gradient(to bottom, rgba(8,6,4,0.75) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(8,6,4,0.5) 100%);
+}
+
+/* ── Foreground video ── */
+.videoWrap { position: absolute; inset: 0; z-index: 2; }
+.fgVideo {
+  width: 100%; height: 100%; object-fit: cover; object-position: center top;
+  filter: brightness(0.72) saturate(0.88);
+}
+.videoVignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(10,8,6,0.65) 100%);
+  pointer-events: none;
+}
+
+/* ── Dim overlays ── */
+.overlays { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.overlayTop {
+  position: absolute; top: 0; left: 0; right: 0; height: 45%;
+  background: linear-gradient(to bottom, rgba(8,6,4,0.92) 0%, rgba(8,6,4,0.5) 55%, transparent 100%);
+}
+.overlayBottom {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 60%;
+  background: linear-gradient(to top, rgba(8,6,4,0.97) 0%, rgba(8,6,4,0.7) 35%, rgba(8,6,4,0.2) 70%, transparent 100%);
+}
+.overlayLeft {
+  position: absolute; top: 0; left: 0; bottom: 0; width: 28%;
+  background: linear-gradient(to right, rgba(8,6,4,0.82) 0%, transparent 100%);
+}
+.overlayRight {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 28%;
+  background: linear-gradient(to left, rgba(8,6,4,0.82) 0%, transparent 100%);
+}
+.overlayMid { position: absolute; inset: 0; background: rgba(6,4,2,0.28); }
+
+/* ── Content ── */
+.content {
+  position: absolute; z-index: 10; bottom: 0; left: 0; right: 0;
+  padding: 0 clamp(2rem, 7vw, 8rem) clamp(5rem, 12vh, 8rem);
+  display: flex; flex-direction: column; align-items: flex-start;
+}
+.tagline {
+  display: inline-block;
+  font-family: var(--font-body); font-size: clamp(0.56rem, 1vw, 0.66rem);
+  font-weight: 400; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--orange); opacity: 0.9;
+  margin-bottom: clamp(1.2rem, 3vh, 2rem);
+}
+.tagline::before {
+  content: ''; display: inline-block; width: 28px; height: 1px;
+  background: var(--orange); vertical-align: middle; margin-right: 14px; opacity: 0.7;
+}
+.nameBlock {
+  display: flex; flex-direction: column; line-height: 0.88;
+  margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+}
+.firstName, .lastName {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 11vw, 10rem);
+  color: var(--white); letter-spacing: 0.025em;
+  text-shadow: 0 2px 40px rgba(0,0,0,0.8), 0 0 80px rgba(0,0,0,0.5);
+  will-change: transform, opacity;
+}
+.lastName {
+  margin-left: clamp(0.5rem, 2vw, 2rem);
+  background: linear-gradient(135deg, var(--cream) 40%, var(--gold) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.subtitle { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+.subtitleLine {
+  font-family: var(--font-serif); font-size: clamp(0.82rem, 1.5vw, 1rem);
+  font-weight: 300; font-style: italic; color: rgba(232,220,208,0.55); letter-spacing: 0.04em;
+}
+.subtitleDivider { color: var(--orange); opacity: 0.5; font-size: 1.1rem; }
+
+/* ── Sound badge ── */
+.soundBadge {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  display: flex; align-items: center; gap: 16px;
+  background: rgba(10,6,3,0.78);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border: 1.5px solid rgba(232,112,58,0.55);
+  border-radius: 20px; padding: 18px 32px;
+  cursor: pointer; user-select: none;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 60px rgba(232,112,58,0.08);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+.soundBadge:hover { background: rgba(232,112,58,0.14); border-color: rgba(232,112,58,0.85); }
+.soundIcon { font-size: 2rem; line-height: 1; }
+.soundText { display: flex; flex-direction: column; gap: 4px; }
+.soundTitle {
+  font-family: var(--font-body); font-size: 0.92rem; font-weight: 500;
+  letter-spacing: 0.06em; color: var(--white);
+}
+.soundSub {
+  font-family: var(--font-body); font-size: 0.62rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(232,220,208,0.45);
+}
+
+/* ── Scroll indicator ── */
+.scrollIndicator {
+  position: absolute; bottom: clamp(1.8rem, 4vh, 3rem); left: 50%;
+  transform: translateX(-50%); z-index: 20;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  cursor: pointer;
+}
+.scrollLabel {
+  font-family: var(--font-body); font-size: 0.58rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: rgba(232,220,208,0.35); transition: color 0.2s ease;
+}
+.scrollIndicator:hover .scrollLabel { color: var(--orange); }
+.scrollLine {
+  width: 1px; height: 52px; background: rgba(232,220,208,0.1);
+  border-radius: 1px; overflow: hidden; position: relative;
+}
+.scrollPulse {
+  position: absolute; top: 0; left: 0; right: 0; height: 100%;
+  background: linear-gradient(to bottom, var(--orange), transparent);
+  border-radius: 1px; will-change: transform, opacity;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .content { padding: 0 1.5rem 5rem; }
+  .subtitle { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+  .subtitleDivider { display: none; }
+  .soundBadge { padding: 14px 22px; gap: 12px; width: 85%; justify-content: center; }
+  .soundIcon { font-size: 1.6rem; }
+  .soundTitle { font-size: 0.82rem; }
+}
+@media (max-width: 380px) { .firstName, .lastName { font-size: 3.5rem; } }
